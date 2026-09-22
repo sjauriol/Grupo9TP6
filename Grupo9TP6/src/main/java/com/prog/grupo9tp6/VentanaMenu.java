@@ -184,6 +184,9 @@ public class VentanaMenu extends javax.swing.JFrame {
         listaProductos.add(new Producto(10, "descripcion", 180.75, 5, Categoria.COMESTIBLE));
         listaProductos.add(new Producto(12, "Cafe", 1233.50, 3, Categoria.COMESTIBLE));
         listaProductos.add(new Producto(75, "Aceite de girasol", 3000.2, 2, Categoria.COMESTIBLE));
+        listaProductos.add(new Producto(21, "Detergente", 890.00, 8, Categoria.LIMPIEZA));
+        listaProductos.add(new Producto(33, "Jabon liquido", 1450.50, 4, Categoria.LIMPIEZA));
+        listaProductos.add(new Producto(44, "Shampoo", 2100.00, 6, Categoria.PERFUMERIA));
     }
 
 }
