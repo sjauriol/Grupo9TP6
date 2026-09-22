@@ -4,13 +4,14 @@
  */
 package com.prog.grupo9tp6;
 
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Grupo9
  */
-public class BusquedaPorNombre extends javax.swing.JInternalFrame {
+public class BusquedaPorRubro extends javax.swing.JInternalFrame {
 
     private final DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -19,13 +20,11 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
         }
     };
 
-    /**
-     * Creates new form BusquedaPorNombre
-     */
-    public BusquedaPorNombre() {
+    public BusquedaPorRubro() {
         initComponents();
         armarCabecera();
-        cargarTabla("");
+        cargarCombo(cmbRubro);
+        cargarTabla();
     }
 
     private void armarCabecera() {
@@ -35,7 +34,6 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
         modelo.addColumn("Categoria");
         modelo.addColumn("Stock");
         jtProductos.setModel(modelo);
-
         lblImagen.setText("");
         java.net.URL ruta = getClass().getResource("/imagenes/lupa.png");
         if (ruta != null) {
@@ -47,17 +45,27 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
         }
     }
 
+    private void cargarCombo(JComboBox<Categoria> combo) {
+        for (Categoria c : Categoria.values()) {
+            combo.addItem(c);
+        }
+    }
+
     private void borrarFilas() {
         for (int f = jtProductos.getRowCount() - 1; f >= 0; f--) {
             modelo.removeRow(f);
         }
     }
 
-    private void cargarTabla(String filtro) {
+    private void cargarTabla() {
+        Categoria rubro = (Categoria) cmbRubro.getSelectedItem();
+        if (rubro == null) {
+            return;
+        }
+
         borrarFilas();
-        String texto = filtro.trim().toLowerCase();
         for (Producto p : VentanaMenu.listaProductos) {
-            if (p.getDescripcion().toLowerCase().contains(texto)) {
+            if (p.getRubro() == rubro) {
                 modelo.addRow(new Object[]{
                     p.getCodigo(), p.getDescripcion(), p.getPrecio(),
                     p.getRubro(), p.getStock()
@@ -77,23 +85,16 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        lblImagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
-        lblImagen = new javax.swing.JLabel();
+        cmbRubro = new javax.swing.JComboBox();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Listado por nombre");
+        jLabel1.setText("Listado por rubro");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Ingrese la descripción:");
-
-        txtNombre.addActionListener(this::txtNombreActionPerformed);
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombreKeyReleased(evt);
-            }
-        });
+        jLabel2.setText("Selecciones el rubro");
 
         jtProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,6 +109,8 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtProductos);
 
+        cmbRubro.addActionListener(this::cmbRubroActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,48 +120,44 @@ public class BusquedaPorNombre extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(124, 124, 124)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(cmbRubro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(133, 133, 133)
                         .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 47, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+    private void cmbRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRubroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
-        cargarTabla(txtNombre.getText());
-    }//GEN-LAST:event_txtNombreKeyReleased
+    }//GEN-LAST:event_cmbRubroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cmbRubro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtProductos;
     private javax.swing.JLabel lblImagen;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

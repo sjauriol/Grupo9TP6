@@ -36,6 +36,15 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
         modelo.addColumn("Categoria");
         modelo.addColumn("Stock");
         jtProductos.setModel(modelo);
+        lblImagen.setText("");
+        java.net.URL ruta = getClass().getResource("/imagenes/lupa.png");
+        if (ruta != null) {
+            javax.swing.ImageIcon icono = new javax.swing.ImageIcon(ruta);
+            int ancho = lblImagen.getWidth() > 0 ? lblImagen.getWidth() : 80;
+            int alto = lblImagen.getHeight() > 0 ? lblImagen.getHeight() : 80;
+            java.awt.Image img = icono.getImage().getScaledInstance(ancho, alto, java.awt.Image.SCALE_SMOOTH);
+            lblImagen.setIcon(new javax.swing.ImageIcon(img));
+        }
     }
 
     private void borrarFilas() {
@@ -45,10 +54,10 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
     }
 
     private void cargarTabla() {
-        Double minimo = parsePrecio(txtMaximo.getText());
+        Double minimo = parsePrecio(txtMinimo.getText());
         Double maximo = parsePrecio(txtMaximo.getText());
 
-        if (minimo == null && txtMaximo.getText().trim().isEmpty()
+        if (minimo == null && txtMinimo.getText().trim().isEmpty()
                 && maximo == null && txtMaximo.getText().trim().isEmpty()) {
             mostrarProductos(0, Double.MAX_VALUE);
             return;
@@ -104,7 +113,7 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
         lblImagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
-        txtMinimo1 = new javax.swing.JTextField();
+        txtMinimo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -131,10 +140,10 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtProductos);
 
-        txtMinimo1.addActionListener(this::txtMinimo1ActionPerformed);
-        txtMinimo1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMinimo.addActionListener(this::txtMinimoActionPerformed);
+        txtMinimo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtMinimo1KeyReleased(evt);
+                txtMinimoKeyReleased(evt);
             }
         });
 
@@ -151,35 +160,37 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(37, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMinimo1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(260, 260, 260)
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(124, 124, 124))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMinimo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))))
+                            .addComponent(jLabel4)))
+                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -190,19 +201,20 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
 
     private void txtMaximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximoActionPerformed
         // TODO add your handling code here:
+        cargarTabla();
     }//GEN-LAST:event_txtMaximoActionPerformed
 
     private void txtMaximoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximoKeyReleased
-
+        cargarTabla();
     }//GEN-LAST:event_txtMaximoKeyReleased
 
-    private void txtMinimo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo1ActionPerformed
+    private void txtMinimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimoActionPerformed
         cargarTabla();
-    }//GEN-LAST:event_txtMinimo1ActionPerformed
+    }//GEN-LAST:event_txtMinimoActionPerformed
 
-    private void txtMinimo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyReleased
+    private void txtMinimoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimoKeyReleased
         cargarTabla();
-    }//GEN-LAST:event_txtMinimo1KeyReleased
+    }//GEN-LAST:event_txtMinimoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -213,6 +225,6 @@ public class BusquedaPorPrecio extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtProductos;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JTextField txtMaximo;
-    private javax.swing.JTextField txtMinimo1;
+    private javax.swing.JTextField txtMinimo;
     // End of variables declaration//GEN-END:variables
 }
