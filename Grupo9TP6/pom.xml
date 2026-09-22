@@ -9,6 +9,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <exec.mainClass>com.prog.grupo9tp6.Grupo9TP6</exec.mainClass>
+        <exec.mainClass>com.prog.grupo9tp6.Main</exec.mainClass>
     </properties>
 </project>

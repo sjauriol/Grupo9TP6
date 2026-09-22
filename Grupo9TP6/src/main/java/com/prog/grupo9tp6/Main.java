@@ -8,7 +8,7 @@ package com.prog.grupo9tp6;
  *
  * @author usuario
  */
-public class Grupo9TP6 {
+public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
