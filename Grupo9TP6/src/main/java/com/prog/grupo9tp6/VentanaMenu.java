@@ -126,7 +126,7 @@ public class VentanaMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         escritorio.removeAll();
         escritorio.repaint();
-        ConsultarPorRubro cpr = new ConsultarPorRubro();
+        BusquedaPorRubro cpr = new BusquedaPorRubro();
         cpr.setVisible(true);
         escritorio.add(cpr);
         escritorio.moveToFront(cpr);
