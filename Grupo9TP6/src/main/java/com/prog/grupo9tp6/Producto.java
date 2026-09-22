@@ -6,7 +6,7 @@ package com.prog.grupo9tp6;
 
 /**
  *
- * @author gonza
+ * @author Grupo9
  */
 public class Producto implements Comparable<Producto> {
     private int codigo;

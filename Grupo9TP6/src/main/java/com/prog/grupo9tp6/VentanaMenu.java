@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 /**
  *
- * @author usuario
+ * @author Grupo9
  */
 public class VentanaMenu extends javax.swing.JFrame {
 

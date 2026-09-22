@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author gonza
+ * @author Grupo9
  */
 public class GestionProductos extends javax.swing.JInternalFrame {
 
